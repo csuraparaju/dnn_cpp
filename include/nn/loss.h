@@ -73,9 +73,25 @@ public:
     Eigen::MatrixXd backward() override;
 };
 
-// Concrete class for the Cross Entropy loss function
-class CrossEntropy : public LossFunction {
+
+class SoftmaxCrossEntropy : public LossFunction {
 public:
+    /**
+     * @brief Compute the row-wise softmax of a matrix A. Used to
+     * transform the model's output into a probability distribution.
+     *
+     * @param A
+     * @return Eigen::MatrixXd
+     */
+    Eigen::MatrixXd softmax(const Eigen::MatrixXd& A) {
+        Eigen::MatrixXd softmax = Eigen::MatrixXd::Zero(A.rows(), A.cols());
+        for (int i = 0; i < A.rows(); i++) {
+            double max = A.row(i).maxCoeff();
+            Eigen::VectorXd exps = (A.row(i).array() - max).exp();
+            softmax.row(i) = exps / exps.sum();
+        }
+        return softmax;
+    };
     double forward(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Y) override;
     Eigen::MatrixXd backward() override;
 };
