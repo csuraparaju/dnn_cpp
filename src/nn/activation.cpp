@@ -47,8 +47,9 @@ Eigen::MatrixXd ReLU::backward(const Eigen::MatrixXd& dLdA) {
  * @return Eigen::MatrixXd The activated output (A)
  */
 Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd& Z) {
+    Eigen::MatrixXd one = Eigen::MatrixXd::Ones(Z.rows(), Z.cols());
+    Eigen::MatrixXd A = 1 / (1 + (-Z.array()).exp());
     this->A = A;
-    A = 1 / (1 + (-Z.array()).exp());
     return A;
 }
 
@@ -76,8 +77,8 @@ Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd& dLdA) {
  * @return Eigen::MatrixXd The activated output (A)
  */
 Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd& Z) {
+    Eigen::MatrixXd A = (Z.array().exp() - (-Z.array()).exp()) / (Z.array().exp() + (-Z.array()).exp());
     this->A = A;
-    A = (Z.array().exp() - (-Z.array()).exp()) / (Z.array().exp() + (-Z.array()).exp());
     return A;
 }
 

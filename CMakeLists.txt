@@ -36,9 +36,11 @@ enable_testing()
 
 add_executable(
   dnn_tests
+  dnn_tests/loss_test.cpp
   dnn_tests/activation_test.cpp
   dnn_tests/build_test.cpp
   src/nn/activation.cpp
+  src/nn/loss.cpp
 )
 
 
