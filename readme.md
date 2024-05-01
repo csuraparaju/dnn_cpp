@@ -6,6 +6,12 @@ It is organized into different modules, each containing classes and functions fo
 ## Implemented Features
 
 - Activation functions
+    - Sigmoid
+    - Tanh
+    - ReLU
+- Loss functions
+    - Mean Squared Error
+    - Cross-Entropy
 
 ## To-Do List
 
