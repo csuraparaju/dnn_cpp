@@ -39,8 +39,10 @@ add_executable(
   dnn_tests/loss_test.cpp
   dnn_tests/activation_test.cpp
   dnn_tests/build_test.cpp
+  dnn_tests/layer_test.cpp
   src/nn/activation.cpp
   src/nn/loss.cpp
+  src/nn/layer.cpp
 )
 
 

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <Eigen/Dense> // Assuming you're using Eigen library for matrix operations
+#include <Eigen/Dense>
 #include "../include/nn/loss.h"
 #include <iostream>
 

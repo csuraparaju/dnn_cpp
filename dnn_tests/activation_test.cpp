@@ -31,7 +31,7 @@ TEST(ReLUBackwardTest, BackwardTest) {
 }
 
 TEST(SigmoidForwardTest, ForwardTest) {
-    Sigmoid sigmoid; // Assuming Sigmoid is the class name for your activation function
+    Sigmoid sigmoid;
     Eigen::MatrixXd Z(4, 2);
     Z << -4.0, -3.0,
          -2.0, -1.0,
@@ -70,7 +70,7 @@ TEST(SigmoidBackwardTest, BackwardTest) {
 }
 
 TEST(TanhForwardTest, ForwardTest) {
-    Tanh tanh; // Assuming Tanh is the class name for your activation function
+    Tanh tanh;
     Eigen::MatrixXd Z(4, 2);
     Z << -4.0, -3.0,
          -2.0, -1.0,
