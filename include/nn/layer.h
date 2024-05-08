@@ -32,6 +32,8 @@ public:
     Eigen::MatrixXd dLdW; // Gradient of loss w.r.t. weights
     Eigen::MatrixXd dLdb; // Gradient of loss w.r.t. biases
     size_t N;  // Number of samples
+    size_t in_size;  // Size of input
+    size_t out_size; // Size of output
 
     /**
      * @brief Construct a new Layer object
@@ -43,6 +45,8 @@ public:
         this->W = Eigen::MatrixXd::Random(output_size, input_size);
         this->b = Eigen::MatrixXd::Random(output_size, 1);
         this->N = 0;
+        this->in_size = input_size;
+        this->out_size = output_size;
     }
 
     /**
