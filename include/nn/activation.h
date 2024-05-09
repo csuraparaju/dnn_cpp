@@ -40,7 +40,7 @@ public:
      *        in the backward pass to compute the gradients.
      *
      */
-    Eigen::MatrixXd A;
+    Eigen::MatrixXd A_;
     /**
      * @brief Construct a new Activation Function object
      *

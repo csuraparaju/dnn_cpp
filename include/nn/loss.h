@@ -25,20 +25,20 @@ public:
      * @brief Stores the model prediction, and other useful variables.
      *
      */
-    Eigen::MatrixXd A;  // Model prediction
-    Eigen::MatrixXd Y;  // Actual output
-    size_t N;  // Number of samples
-    size_t C;  // Number of classes
+    Eigen::MatrixXd A_;  // Model prediction
+    Eigen::MatrixXd Y_;  // Actual output
+    size_t N_;  // Number of samples
+    size_t C_;  // Number of classes
     /**
      * @brief Construct a new Loss Function object, and initialize the
      *        matricies to be empty
      *
      */
     LossFunction() {
-        this->N = 0;
-        this->C = 0;
-        this->A = Eigen::MatrixXd(0, 0);
-        this->Y = Eigen::MatrixXd(0, 0);
+        this->N_ = 0;
+        this->C_ = 0;
+        this->A_ = Eigen::MatrixXd(0, 0);
+        this->Y_ = Eigen::MatrixXd(0, 0);
     }
 
     /**

@@ -21,8 +21,8 @@
  * @return Eigen::MatrixXd The activated output
  */
 Eigen::MatrixXd ReLU::forward(const Eigen::MatrixXd& Z) {
-    this->A = A;
-    A = Z.cwiseMax(0);
+    Eigen::MatrixXd A = Z.cwiseMax(0);
+    this->A_ = A;
     return A;
 }
 
@@ -34,7 +34,7 @@ Eigen::MatrixXd ReLU::forward(const Eigen::MatrixXd& Z) {
  * @return Eigen::MatrixXd The derivative of the loss with respect to the input Z
  */
 Eigen::MatrixXd ReLU::backward(const Eigen::MatrixXd& dLdA) {
-    Eigen::MatrixXd curr_A = this->A;
+    Eigen::MatrixXd curr_A = this->A_;
     Eigen::MatrixXd dAdZ = (curr_A.array() > 0).cast<double>();
     return dLdA.cwiseProduct(dAdZ);
 }
@@ -49,7 +49,7 @@ Eigen::MatrixXd ReLU::backward(const Eigen::MatrixXd& dLdA) {
 Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd& Z) {
     Eigen::MatrixXd one = Eigen::MatrixXd::Ones(Z.rows(), Z.cols());
     Eigen::MatrixXd A = 1 / (1 + (-Z.array()).exp());
-    this->A = A;
+    this->A_ = A;
     return A;
 }
 
@@ -63,7 +63,7 @@ Eigen::MatrixXd Sigmoid::forward(const Eigen::MatrixXd& Z) {
  * @return Eigen::MatrixXd The derivative of the loss with respect to the input Z
  */
 Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd& dLdA) {
-    Eigen::MatrixXd A = this->A;
+    Eigen::MatrixXd A = this->A_;
     Eigen::MatrixXd one = Eigen::MatrixXd::Ones(A.rows(), A.cols());
     Eigen::MatrixXd dAdZ = A.cwiseProduct(one - A);
     return dLdA.cwiseProduct(dAdZ);
@@ -78,7 +78,7 @@ Eigen::MatrixXd Sigmoid::backward(const Eigen::MatrixXd& dLdA) {
  */
 Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd& Z) {
     Eigen::MatrixXd A = (Z.array().exp() - (-Z.array()).exp()) / (Z.array().exp() + (-Z.array()).exp());
-    this->A = A;
+    this->A_ = A;
     return A;
 }
 
@@ -92,7 +92,7 @@ Eigen::MatrixXd Tanh::forward(const Eigen::MatrixXd& Z) {
  * @return Eigen::MatrixXd The derivative of the loss with respect to the input Z
  */
 Eigen::MatrixXd Tanh::backward(const Eigen::MatrixXd& dLdA) {
-    Eigen::MatrixXd A = this->A;
+    Eigen::MatrixXd A = this->A_;
     Eigen::MatrixXd one = Eigen::MatrixXd::Ones(A.rows(), A.cols());
     Eigen::MatrixXd dAdZ = one - A.cwiseProduct(A);
     return dLdA.cwiseProduct(dAdZ);

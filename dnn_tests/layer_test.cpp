@@ -6,12 +6,12 @@
 TEST(LinearTest, Forward) {
     // Will initially be random, but we set it to a known value for testing
     Linear linear(2, 3);
-    linear.W = Eigen::MatrixXd(3, 2);
-    linear.W << -2.0, -1.0,
+    linear.W_ = Eigen::MatrixXd(3, 2);
+    linear.W_ << -2.0, -1.0,
                  0.0,  1.0,
                  2.0,  3.0;
-    linear.b = Eigen::MatrixXd(3, 1);
-    linear.b << -1.0,
+    linear.b_ = Eigen::MatrixXd(3, 1);
+    linear.b_ << -1.0,
                  0.0,
                  1.0;
 
@@ -35,12 +35,12 @@ TEST(LinearTest, Forward) {
 
 TEST(LinearTest, Backward) {
     Linear linear(2, 3);
-    linear.W = Eigen::MatrixXd(3, 2);
-    linear.W << -2.0, -1.0,
+    linear.W_ = Eigen::MatrixXd(3, 2);
+    linear.W_ << -2.0, -1.0,
                  0.0,  1.0,
                  2.0,  3.0;
-    linear.b = Eigen::MatrixXd(3, 1);
-    linear.b << -1.0,
+    linear.b_ = Eigen::MatrixXd(3, 1);
+    linear.b_ << -1.0,
                  0.0,
                  1.0;
 
@@ -78,7 +78,7 @@ TEST(LinearTest, Backward) {
                      6.0,
                     10.0;
 
-    ASSERT_TRUE(linear.dLdW.isApprox(expected_dLdW, 1e-12));
-    ASSERT_TRUE(linear.dLdb.isApprox(expected_dLdb, 1e-12));
+    ASSERT_TRUE(linear.dLdW_.isApprox(expected_dLdW, 1e-12));
+    ASSERT_TRUE(linear.dLdb_.isApprox(expected_dLdb, 1e-12));
 }
 

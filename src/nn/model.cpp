@@ -23,15 +23,15 @@
  */
 Eigen::MatrixXd Model::forward(const Eigen::MatrixXd& X) {
     Eigen::MatrixXd A = X;
-    for (int i = 0; i < this->layers.size(); i++) {
-        A = this->layers[i]->forward(A);
+    for (int i = 0; i < this->layers_.size(); i++) {
+        A = this->layers_[i]->forward(A);
 
         // Guard check if activations are not provided
-        if(i > this->activations.size() - 1) {
+        if(i > this->activations_.size() - 1) {
             return A;
         }
 
-        A = this->activations[i]->forward(A);
+        A = this->activations_[i]->forward(A);
     }
     return A;
 }
@@ -42,14 +42,15 @@ Eigen::MatrixXd Model::forward(const Eigen::MatrixXd& X) {
  * in the model.
  *
  * @param dLdZ
+
  */
 void Model::backward() {
-    Eigen::MatrixXd dLdA = this->loss->backward();
+    Eigen::MatrixXd dLdA = this->loss_->backward();
     Eigen::MatrixXd dLdZ;
-    for (int i = this->layers.size() - 1; i >= 0; i--) {
-        if(i <= this->activations.size() - 1) {
-            dLdZ = this->activations[i]->backward(dLdA);
+    for (int i = this->layers_.size() - 1; i >= 0; i--) {
+        if(i <= this->activations_.size() - 1) {
+            dLdZ = this->activations_[i]->backward(dLdA);
         }
-        dLdA = layers[i]->backward(dLdA);
+        dLdA = layers_[i]->backward(dLdA);
     }
 }

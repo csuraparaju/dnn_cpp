@@ -31,7 +31,15 @@
 #include "loss.h"
 #include "activation.h"
 
-// Base class for all neural network models
+/**
+ * @brief Base class for all Neural Network models. Your model should
+ * inherit from this class and pass in the layers, loss function, and
+ * activation functions to the constructor. The forward and backward
+ * methods are implemented in the base class, which will sequentially
+ * call the forward and backward methods of each layer and activation
+ * function in the model. If you want to implement a custom model,
+ * you can override the forward and backward methods in the derived class.
+ */
 class Model {
 public:
 
@@ -40,9 +48,9 @@ public:
      * Store unique_ptr to layers, loss function, and activation functions.
      * This is to ensure that the memory is managed properly.
      */
-    std::vector<std::unique_ptr<Layer>> layers;
-    std::unique_ptr<LossFunction> loss;
-    std::vector<std::unique_ptr<ActivationFunction>> activations;
+    std::vector<std::unique_ptr<Layer>>& layers_;
+    std::vector<std::unique_ptr<ActivationFunction>>& activations_;
+    std::unique_ptr<LossFunction>& loss_;
 
     /**
      * @brief Construct a new Model object. Take in a vector of
@@ -50,13 +58,11 @@ public:
      *       functions, and store them in the model.
      *
      */
-    Model(std::vector<std::unique_ptr<Layer>> layers,
-          std::unique_ptr<LossFunction> loss,
-          std::vector<std::unique_ptr<ActivationFunction>> activations) {
-        this->layers = std::move(layers);
-        this->loss = std::move(loss);
-        this->activations = std::move(activations);
-    }
+    Model(std::vector<std::unique_ptr<Layer>>& layers,
+          std::vector<std::unique_ptr<ActivationFunction>>& activations,
+          std::unique_ptr<LossFunction>& loss)
+        : layers_(layers), activations_(activations), loss_(loss) {}
+
 
     /**
      * @brief During forward propagation, we apply a sequence of transformations
@@ -89,29 +95,4 @@ public:
      */
     virtual ~Model() {}
 };
-
-// Concrete class for a feedforward neural network model
-class LinearModel : public Model {
-public:
-
-    /**
-     * @brief Construct a new Linear Model object. Takes in
-     * the input size, output size, num linear layers, loss
-     * function, and the activation functions to use.
-     *
-     */
-    LinearModel(size_t input_size, size_t output_size, size_t num_layers,
-                std::unique_ptr<LossFunction> loss,
-                std::vector<std::unique_ptr<ActivationFunction>> activations) :
-                Model({}, std::move(loss), std::move(activations)) {
-        for(size_t i = 0; i < num_layers; i++) {
-            if(i == 0) {
-                this->layers.push_back(std::make_unique<Linear>(input_size, output_size));
-            } else {
-                this->layers.push_back(std::make_unique<Linear>(output_size, output_size));
-            }
-        }
-    }
-};
-
 #endif

@@ -26,14 +26,14 @@
 #define LAYER_H
 class Layer {
 public:
-    Eigen::MatrixXd W;  // Weights
-    Eigen::MatrixXd b;  // Biases
-    Eigen::MatrixXd A;  // Activated output from previous layer
-    Eigen::MatrixXd dLdW; // Gradient of loss w.r.t. weights
-    Eigen::MatrixXd dLdb; // Gradient of loss w.r.t. biases
-    size_t N;  // Number of samples
-    size_t in_size;  // Size of input
-    size_t out_size; // Size of output
+    Eigen::MatrixXd W_;  // Weights
+    Eigen::MatrixXd b_;  // Biases
+    Eigen::MatrixXd A_;  // Activated output from previous layer
+    Eigen::MatrixXd dLdW_; // Gradient of loss w.r.t. weights
+    Eigen::MatrixXd dLdb_; // Gradient of loss w.r.t. biases
+    size_t N_;  // Number of samples
+    size_t in_size_;  // Size of input
+    size_t out_size_; // Size of output
 
     /**
      * @brief Construct a new Layer object
@@ -42,11 +42,11 @@ public:
      * @param output_size The size of the output from the layer
      */
     Layer(size_t input_size, size_t output_size) {
-        this->W = Eigen::MatrixXd::Random(output_size, input_size);
-        this->b = Eigen::MatrixXd::Random(output_size, 1);
-        this->N = 0;
-        this->in_size = input_size;
-        this->out_size = output_size;
+        this->W_ = Eigen::MatrixXd::Random(output_size, input_size);
+        this->b_ = Eigen::MatrixXd::Random(output_size, 1);
+        this->N_ = 0;
+        this->in_size_ = input_size;
+        this->out_size_ = output_size;
     }
 
     /**

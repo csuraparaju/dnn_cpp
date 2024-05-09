@@ -23,15 +23,15 @@
 double MeanSquaredError::forward(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Y) {
 
     // If the matrices are empty, initialize them to the input value A and Y
-    if(this->A.size() == 0 || this->Y.size() == 0
-        || this->N == 0 || this->C == 0) {
-        this->A = A;
-        this->Y = Y;
-        this->N = A.rows();
-        this->C = A.cols();
+    if(this->A_.size() == 0 || this->Y_.size() == 0
+        || this->N_ == 0 || this->C_ == 0) {
+        this->A_ = A;
+        this->Y_ = Y;
+        this->N_ = A.rows();
+        this->C_ = A.cols();
     }
     double loss = (A - Y).array().square().sum();
-    return loss / (N * C);
+    return loss / (N_ * C_);
 
 }
 
@@ -44,9 +44,9 @@ double MeanSquaredError::forward(const Eigen::MatrixXd& A, const Eigen::MatrixXd
  * @return Eigen::MatrixXd The derivative of the loss with respect to the input
  */
 Eigen::MatrixXd MeanSquaredError::backward() {
-    Eigen::MatrixXd A = this->A;
-    Eigen::MatrixXd Y = this->Y;
-    return 2 * (A - Y) / (N * C);
+    Eigen::MatrixXd A = this->A_;
+    Eigen::MatrixXd Y = this->Y_;
+    return 2 * (A - Y) / (N_ * C_);
 }
 
 
@@ -60,19 +60,19 @@ Eigen::MatrixXd MeanSquaredError::backward() {
  */
 double SoftmaxCrossEntropy::forward(const Eigen::MatrixXd& A, const Eigen::MatrixXd& Y) {
     // If the matrices are empty, initialize them to the input value A and Y
-    if(this->A.size() == 0 || this->Y.size() == 0
-        || this->N == 0 || this->C == 0) {
-        this->A = A;
-        this->Y = Y;
-        this->N = A.rows();
-        this->C = A.cols();
+    if(this->A_.size() == 0 || this->Y_.size() == 0
+        || this->N_ == 0 || this->C_ == 0) {
+        this->A_ = A;
+        this->Y_ = Y;
+        this->N_ = A.rows();
+        this->C_ = A.cols();
     }
 
     Eigen::MatrixXd softmax = SoftmaxCrossEntropy::softmax(A);
 
     Eigen::MatrixXd log_softmax = softmax.array().log();
     double loss = -1 * (Y.cwiseProduct(log_softmax)).sum();
-    double mean_loss = loss / N;
+    double mean_loss = loss / N_;
 
     return mean_loss;
 }
@@ -85,8 +85,8 @@ double SoftmaxCrossEntropy::forward(const Eigen::MatrixXd& A, const Eigen::Matri
  * @return Eigen::MatrixXd The derivative of the loss with respect to the input
  */
 Eigen::MatrixXd SoftmaxCrossEntropy::backward() {
-    Eigen::MatrixXd A = this->A;
-    Eigen::MatrixXd Y = this->Y;
+    Eigen::MatrixXd A = this->A_;
+    Eigen::MatrixXd Y = this->Y_;
     Eigen::MatrixXd softmax = SoftmaxCrossEntropy::softmax(A);
-    return (softmax - Y) / N;
+    return (softmax - Y) / N_;
 }
