@@ -11,7 +11,6 @@
  */
 
 #include "../../include/nn/loss.h"
-#include <iostream>
 
 /**
  * @brief Computes the mean squared error loss function given the predicted output

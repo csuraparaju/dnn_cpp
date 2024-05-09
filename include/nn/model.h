@@ -53,26 +53,34 @@ public:
     Model(std::vector<std::unique_ptr<Layer>> layers,
           std::unique_ptr<LossFunction> loss,
           std::vector<std::unique_ptr<ActivationFunction>> activations) {
-        this->layers = layers;
-        this->loss = loss;
-        this->activations = activations;
+        this->layers = std::move(layers);
+        this->loss = std::move(loss);
+        this->activations = std::move(activations);
     }
 
     /**
-     * @brief Forward pass of the model
-     *
+     * @brief During forward propagation, we apply a sequence of transformations
+     *        and activation functions to the input data x to obtain the output data y.
+     *        That is, y = fNN (x) = fL (fL-1 ( ... f2 (f1 (x)) ... )). The forward
+     *        method computes the output of the neural network given the input data x.
      * @param X The input data
      * @return Eigen::MatrixXd The output of the model
      */
-    virtual Eigen::MatrixXd forward(const Eigen::MatrixXd& X) = 0;
+    Eigen::MatrixXd forward(const Eigen::MatrixXd& X);
 
     /**
-     * @brief Backward pass of the model
+     * @brief During backward propagation, we compute the gradients of the loss with
+     *        respect to the parameters of the neural network. Given the gradients
+     *        of the loss with respect to the output of the neural network, we can
+     *        compute the gradients of the loss with respect to the parameters of
+     *        each layer in the neural network. The backward method computes the
+     *        gradients of the loss with respect to the parameters of the neural
+     *        network using the chain rule of calculus.
      *
      * @param dLdZ The gradient of the loss with respect to the output of the model
      * @return Eigen::MatrixXd The gradient of the loss with respect to the input of the model
      */
-    virtual Eigen::MatrixXd backward() = 0;
+    void backward();
 
 
     /**
@@ -98,41 +106,11 @@ public:
                 Model({}, std::move(loss), std::move(activations)) {
         for(size_t i = 0; i < num_layers; i++) {
             if(i == 0) {
-                layers.push_back(std::make_unique<Linear>(input_size, output_size));
+                this->layers.push_back(std::make_unique<Linear>(input_size, output_size));
             } else {
-                layers.push_back(std::make_unique<Linear>(output_size, output_size));
+                this->layers.push_back(std::make_unique<Linear>(output_size, output_size));
             }
         }
-    }
-
-    /**
-     * @brief Forward pass of the model
-     *
-     * @param X The input data
-     * @return Eigen::MatrixXd The output of the model
-     */
-    Eigen::MatrixXd forward(const Eigen::MatrixXd& X) override {
-        Eigen::MatrixXd A = X;
-        for(size_t i = 0; i < layers.size(); i++) {
-            A = layers[i]->forward(A);
-            A = activations[i]->forward(A);
-        }
-        return A;
-    }
-
-    /**
-     * @brief Backward pass of the model
-     *
-     * @param dLdZ The gradient of the loss with respect to the output of the model
-     * @return Eigen::MatrixXd The gradient of the loss with respect to the input of the model
-     */
-    Eigen::MatrixXd backward() override {
-        Eigen::MatrixXd dLdZ = loss->backward();
-        for(int i = layers.size() - 1; i >= 0; i--) {
-            dLdZ = activations[i]->backward(dLdZ);
-            dLdZ = layers[i]->backward(dLdZ);
-        }
-        return dLdZ;
     }
 };
 

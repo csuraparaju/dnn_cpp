@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <Eigen/Dense>
 #include "../include/nn/loss.h"
-#include <iostream>
+
 
 using namespace Eigen;
 
