@@ -1,6 +1,6 @@
 /**
  * @file model.cpp
- * @author your name (you@domain.com)
+ * @author Krish Suraparaju (csurapar)
  * @brief Provides the concrete implementation of the various neural network models
  * defined in include/nn/model.h header.
  * @version 0.1

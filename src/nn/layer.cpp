@@ -1,3 +1,15 @@
+/**
+ * @file layer.cpp
+ * @author Krish Suraparaju (csurapar)
+ * @brief  Gives a concrete implementation of the various layer
+ *         functions defined in include/nn/layer.h header.
+ * @version 0.1
+ * @date 2024-05-12
+ *
+ * @copyright Copyright (c) 2024
+ *
+ */
+
 #include "../../include/nn/layer.h"
 #include <Eigen/Dense>
 #include <iostream>
